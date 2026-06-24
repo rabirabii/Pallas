@@ -3,10 +3,10 @@ import json
 import re
 from dataclasses import dataclass
 from urllib.parse import urljoin
-
+from datetime import datetime
 from bs4 import BeautifulSoup, Tag
 
-from pipeline.speedhome.models import RawListing, RawListingDetail
+from pipeline.speedhome.models import RawListing, RawListingDetail, ScrapedListing
 from pipeline.utils import SPEEDHOME_BASE_URL, canonicalize_detail_url, normalize_whitespace
 
 
@@ -294,3 +294,168 @@ def parse_detail_page(html: str, source_url: str) -> RawListingDetail:
         description=_find_description(text),
         parse_warnings=[],
     )
+def _next_data_payload(html: str) -> dict | None:
+    soup = BeautifulSoup(html, "html.parser")
+    script = soup.find("script", id="__NEXT_DATA__")
+
+    if not script:
+        return None
+
+    raw = script.string or script.get_text()
+    if not raw:
+        return None
+
+    try:
+        parsed = json.loads(raw)
+    except json.JSONDecodeError:
+        return None
+
+    return parsed if isinstance(parsed, dict) else None
+
+
+def parse_next_data_property_items(html: str) -> list[dict]:
+    payload = _next_data_payload(html)
+    if not payload:
+        return []
+
+    content = (
+        payload
+        .get("props", {})
+        .get("pageProps", {})
+        .get("propertyList", {})
+        .get("content", [])
+    )
+
+    return [item for item in content if isinstance(item, dict)]
+
+
+def _price_text_from_snapshot(item: dict) -> str | None:
+    price = item.get("price")
+    return f"RM {price}" if price is not None else None
+
+
+def _size_text_from_snapshot(item: dict) -> str | None:
+    sqft = item.get("sqft")
+    return f"{sqft} sqft" if sqft is not None else None
+
+
+def _count_text_from_snapshot(item: dict, key: str, label: str) -> str | None:
+    value = item.get(key)
+    return f"{value} {label}" if value is not None else None
+
+
+def _furnishing_text_from_snapshot(item: dict) -> str | None:
+    furnish_type = item.get("furnishType")
+
+    if furnish_type == "FULL":
+        return "Fully Furnished"
+    if furnish_type == "PARTIAL":
+        return "Partially Furnished"
+    if furnish_type in {"NONE", "UNFURNISHED"}:
+        return "Unfurnished"
+
+    return None
+
+
+def _detail_url_from_snapshot(item: dict, base_url: str = SPEEDHOME_BASE_URL) -> str:
+    slug = item.get("slug")
+    if not slug:
+        raise ValueError("Snapshot property item does not contain slug")
+
+    return canonicalize_detail_url(urljoin(base_url, f"/details/{slug}"))
+
+
+def parse_saved_area_snapshot(
+    html: str,
+    area_name: str,
+    area_slug: str,
+    source_page: int,
+    scraped_at: datetime,
+    base_url: str = SPEEDHOME_BASE_URL,
+) -> list[ScrapedListing]:
+    from pipeline.speedhome.models import ScrapedListing
+
+    scraped: list[ScrapedListing] = []
+
+    for item in parse_next_data_property_items(html):
+        try:
+            detail_url = _detail_url_from_snapshot(item, base_url=base_url)
+        except ValueError:
+            continue
+
+        name = normalize_whitespace(item.get("name"))
+        address = normalize_whitespace(item.get("address"))
+        description = normalize_whitespace(item.get("description"))
+
+        price_text = _price_text_from_snapshot(item)
+        size_text = _size_text_from_snapshot(item)
+        bedroom_text = _count_text_from_snapshot(item, "bedroom", "bedroom")
+        bathroom_text = _count_text_from_snapshot(item, "bathroom", "bathroom")
+        parking_text = _count_text_from_snapshot(item, "carpark", "parking")
+        furnishing_text = _furnishing_text_from_snapshot(item)
+
+        card_parts = [
+            "VERIFIED" if item.get("propertyVerified") else None,
+            "ZERO DEPOSIT" if item.get("noDeposit") else None,
+            name,
+            price_text,
+            size_text,
+            bedroom_text,
+            bathroom_text,
+            parking_text,
+        ]
+        card_text = normalize_whitespace(" ".join(part for part in card_parts if part))
+
+        raw_listing = RawListing(
+            detail_url=detail_url,
+            card_text=card_text,
+            property_name=name,
+            area=address,
+            monthly_price_text=price_text,
+            size_text=size_text,
+            bedroom_text=bedroom_text,
+            bathroom_text=bathroom_text,
+            parking_text=parking_text,
+            verified_text="VERIFIED" if item.get("propertyVerified") else None,
+            zero_deposit_text="ZERO DEPOSIT" if item.get("noDeposit") else None,
+            move_in_text=normalize_whitespace(item.get("availability")),
+            source_page=source_page,
+            parse_warnings=[],
+        )
+
+        detail = RawListingDetail(
+            source_url=detail_url,
+            page_title=name,
+            listing_title=name,
+            property_name=name,
+            full_area_or_address=address,
+            monthly_price_text=price_text,
+            size_text=size_text,
+            bedroom_text=bedroom_text,
+            bathroom_text=bathroom_text,
+            parking_text=parking_text,
+            furnishing_text=furnishing_text,
+            minimum_tenure_text=(
+                f"{item.get('minRentalDuration')} month"
+                if item.get("minRentalDuration") is not None
+                else None
+            ),
+            move_in_date_text=normalize_whitespace(item.get("availability")),
+            property_type=normalize_whitespace(item.get("type")),
+            description=description,
+            parse_warnings=[],
+        )
+
+        scraped.append(
+            ScrapedListing(
+                area_name=area_name,
+                area_slug=area_slug,
+                source_page=source_page,
+                list_page=raw_listing,
+                detail_page=detail,
+                scraped_at=scraped_at,
+                parse_warnings=[],
+            )
+        )
+
+    return scraped

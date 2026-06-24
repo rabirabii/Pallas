@@ -28,7 +28,7 @@ dist/
 backend/data/raw/
 backend/data/clean/
 backend/data/exports/
-
+backend/pipeline/fixtures/*.html
 # Keep empty data folders trackable if you add .gitkeep files
 !backend/data/raw/.gitkeep
 !backend/data/clean/.gitkeep
