@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+
+# Data pipeline outputs
+backend/data/raw/
+backend/data/clean/
+backend/data/exports/
+
+# Keep empty data folders trackable if you add .gitkeep files
+!backend/data/raw/.gitkeep
+!backend/data/clean/.gitkeep
+!backend/data/exports/.gitkeep
+
+# Temporary parser/debug fixtures
+backend/pipeline/fixtures/*.html
+backend/pipeline/fixtures/*.json
+
+# Keep intentional small fixtures if placed under tests
+!backend/tests/**/*.html
+!backend/tests/**/*.json
+
+# Node / Next.js later
+node_modules/
+.next/
+out/
+.vercel/
+.turbo/
+coverage/
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
