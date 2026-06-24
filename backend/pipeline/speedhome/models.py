@@ -133,6 +133,26 @@ class PriceSummary(BaseModel):
     averageSizeSqft: int | None
     dataConfidence: Literal["Very Low", "Low", "Moderate", "Higher"]
 
+    minimumMonthlyRentRM: int | None
+    maximumMonthlyRentRM: int | None
+    priceRangeRM: int | None
+
+    q1MonthlyRentRM: int | None
+    q3MonthlyRentRM: int | None
+    iqrMonthlyRentRM: int | None
+
+    averageRentPerSqftRM: float | None
+    medianRentPerSqftRM: float | None
+
+    outlierCount: int
+    lowerOutlierBoundRM: int | None
+    upperOutlierBoundRM: int | None
+
+    meanMedianGapRM: int | None
+    meanMedianGapPercentage: float | None
+
+    listingSharePercentage: float
+
 
 class RentalTypeInfo(BaseModel):
     available: bool
@@ -166,6 +186,7 @@ class AreaDataset(BaseModel):
     rentalTypes: dict[str, RentalTypeInfo]
     summaries: list[PriceSummary]
     listings: list[PropertyListing]
+    marketInsights: MarketInsightSummary
     qualityReport: QualityReport
 
 
@@ -180,3 +201,31 @@ class ManifestArea(BaseModel):
 class DatasetManifest(BaseModel):
     generatedAt: str
     areas: list[ManifestArea]
+
+class DataCompleteness(BaseModel):
+    totalListings: int
+    priceCompletenessPercentage: float
+    sizeCompletenessPercentage: float
+    furnishingKnownPercentage: float
+
+
+class FurnishingBreakdownItem(BaseModel):
+    furnishing: Furnishing
+    listingCount: int
+    listingSharePercentage: float
+    medianMonthlyRentRM: int | None
+
+
+class FurnishingPremium(BaseModel):
+    available: bool
+    fullyFurnishedMedianRM: int | None
+    unfurnishedMedianRM: int | None
+    premiumRM: int | None
+    premiumPercentage: float | None
+    reason: str | None = None
+
+
+class MarketInsightSummary(BaseModel):
+    dataCompleteness: DataCompleteness
+    furnishingBreakdown: list[FurnishingBreakdownItem]
+    furnishingPremium: FurnishingPremium

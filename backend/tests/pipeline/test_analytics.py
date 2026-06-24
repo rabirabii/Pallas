@@ -1,4 +1,5 @@
 from pipeline.analytics import (
+    build_market_insights,
     calculate_fair_price,
     calculate_mode,
     data_confidence,
@@ -121,3 +122,42 @@ def test_summarize_segment():
     assert summary.fairPriceRM == 2500
     assert summary.averageSizeSqft == 1000
     assert summary.dataConfidence == "Low"
+    assert summary.minimumMonthlyRentRM == 2500
+    assert summary.maximumMonthlyRentRM == 3000
+    assert summary.priceRangeRM == 500
+    assert summary.q1MonthlyRentRM == 2500
+    assert summary.q3MonthlyRentRM == 2750
+    assert summary.iqrMonthlyRentRM == 250
+    assert summary.averageRentPerSqftRM == 2.67
+    assert summary.medianRentPerSqftRM == 2.73
+    assert summary.outlierCount == 0
+    assert summary.meanMedianGapRM == 167
+    assert summary.meanMedianGapPercentage == 6.7
+    assert summary.listingSharePercentage == 100.0
+
+def test_build_market_insights():
+    listings = [
+        make_listing(price=3000, size=1000),
+        make_listing(price=3200, size=1000),
+        make_listing(price=3400, size=1000),
+        make_listing(price=2000, size=1000),
+        make_listing(price=2200, size=1000),
+        make_listing(price=2400, size=1000),
+    ]
+
+    listings[0].furnishing = Furnishing.FULLY_FURNISHED
+    listings[1].furnishing = Furnishing.FULLY_FURNISHED
+    listings[2].furnishing = Furnishing.FULLY_FURNISHED
+    listings[3].furnishing = Furnishing.UNFURNISHED
+    listings[4].furnishing = Furnishing.UNFURNISHED
+    listings[5].furnishing = Furnishing.UNFURNISHED
+
+    insights = build_market_insights(listings)
+
+    assert insights.dataCompleteness.totalListings == 6
+    assert insights.dataCompleteness.priceCompletenessPercentage == 100.0
+    assert insights.furnishingPremium.available is True
+    assert insights.furnishingPremium.fullyFurnishedMedianRM == 3200
+    assert insights.furnishingPremium.unfurnishedMedianRM == 2200
+    assert insights.furnishingPremium.premiumRM == 1000
+    assert insights.furnishingPremium.premiumPercentage == 45.5

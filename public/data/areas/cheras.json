@@ -47,7 +47,21 @@
       "fairPriceRM": 890,
       "fairPriceStatus": "available",
       "averageSizeSqft": 467,
-      "dataConfidence": "Higher"
+      "dataConfidence": "Higher",
+      "minimumMonthlyRentRM": 600,
+      "maximumMonthlyRentRM": 1800,
+      "priceRangeRM": 1200,
+      "q1MonthlyRentRM": 700,
+      "q3MonthlyRentRM": 1320,
+      "iqrMonthlyRentRM": 620,
+      "averageRentPerSqftRM": 3.28,
+      "medianRentPerSqftRM": 3.8,
+      "outlierCount": 0,
+      "lowerOutlierBoundRM": -230,
+      "upperOutlierBoundRM": 2250,
+      "meanMedianGapRM": 226,
+      "meanMedianGapPercentage": 28.2,
+      "listingSharePercentage": 27.5
     },
     {
       "segment": "2BR",
@@ -62,7 +76,21 @@
       "fairPriceRM": 2520,
       "fairPriceStatus": "available",
       "averageSizeSqft": 780,
-      "dataConfidence": "Low"
+      "dataConfidence": "Low",
+      "minimumMonthlyRentRM": 700,
+      "maximumMonthlyRentRM": 3600,
+      "priceRangeRM": 2900,
+      "q1MonthlyRentRM": 1750,
+      "q3MonthlyRentRM": 3300,
+      "iqrMonthlyRentRM": 1550,
+      "averageRentPerSqftRM": 2.96,
+      "medianRentPerSqftRM": 3.43,
+      "outlierCount": 0,
+      "lowerOutlierBoundRM": -575,
+      "upperOutlierBoundRM": 5625,
+      "meanMedianGapRM": -250,
+      "meanMedianGapPercentage": -9.4,
+      "listingSharePercentage": 10.0
     },
     {
       "segment": "3BR",
@@ -81,7 +109,21 @@
       "fairPriceRM": 1970,
       "fairPriceStatus": "available",
       "averageSizeSqft": 1166,
-      "dataConfidence": "Higher"
+      "dataConfidence": "Higher",
+      "minimumMonthlyRentRM": 750,
+      "maximumMonthlyRentRM": 3400,
+      "priceRangeRM": 2650,
+      "q1MonthlyRentRM": 1775,
+      "q3MonthlyRentRM": 2200,
+      "iqrMonthlyRentRM": 425,
+      "averageRentPerSqftRM": 1.8,
+      "medianRentPerSqftRM": 1.8,
+      "outlierCount": 3,
+      "lowerOutlierBoundRM": 1138,
+      "upperOutlierBoundRM": 2838,
+      "meanMedianGapRM": 29,
+      "meanMedianGapPercentage": 1.5,
+      "listingSharePercentage": 37.5
     },
     {
       "segment": "4BR+",
@@ -96,7 +138,21 @@
       "fairPriceRM": 3770,
       "fairPriceStatus": "available",
       "averageSizeSqft": 1635,
-      "dataConfidence": "Moderate"
+      "dataConfidence": "Moderate",
+      "minimumMonthlyRentRM": 1500,
+      "maximumMonthlyRentRM": 5400,
+      "priceRangeRM": 3900,
+      "q1MonthlyRentRM": 1800,
+      "q3MonthlyRentRM": 5000,
+      "iqrMonthlyRentRM": 3200,
+      "averageRentPerSqftRM": 2.58,
+      "medianRentPerSqftRM": 1.5,
+      "outlierCount": 0,
+      "lowerOutlierBoundRM": -3000,
+      "upperOutlierBoundRM": 9800,
+      "meanMedianGapRM": -460,
+      "meanMedianGapPercentage": -11.5,
+      "listingSharePercentage": 12.5
     },
     {
       "segment": "Room - Master Private",
@@ -111,7 +167,21 @@
       "fairPriceRM": 1280,
       "fairPriceStatus": "available",
       "averageSizeSqft": 908,
-      "dataConfidence": "Moderate"
+      "dataConfidence": "Moderate",
+      "minimumMonthlyRentRM": 350,
+      "maximumMonthlyRentRM": 2800,
+      "priceRangeRM": 2450,
+      "q1MonthlyRentRM": 1200,
+      "q3MonthlyRentRM": 1800,
+      "iqrMonthlyRentRM": 600,
+      "averageRentPerSqftRM": 1.69,
+      "medianRentPerSqftRM": 1.67,
+      "outlierCount": 1,
+      "lowerOutlierBoundRM": 300,
+      "upperOutlierBoundRM": 2700,
+      "meanMedianGapRM": 30,
+      "meanMedianGapPercentage": 2.0,
+      "listingSharePercentage": 12.5
     }
   ],
   "listings": [
@@ -1246,6 +1316,48 @@
       "dataQualityFlags": []
     }
   ],
+  "marketInsights": {
+    "dataCompleteness": {
+      "totalListings": 40,
+      "priceCompletenessPercentage": 100.0,
+      "sizeCompletenessPercentage": 87.5,
+      "furnishingKnownPercentage": 100.0
+    },
+    "furnishingBreakdown": [
+      {
+        "furnishing": "Fully Furnished",
+        "listingCount": 20,
+        "listingSharePercentage": 50.0,
+        "medianMonthlyRentRM": 2050
+      },
+      {
+        "furnishing": "Partially Furnished",
+        "listingCount": 9,
+        "listingSharePercentage": 22.5,
+        "medianMonthlyRentRM": 1800
+      },
+      {
+        "furnishing": "Unfurnished",
+        "listingCount": 11,
+        "listingSharePercentage": 27.5,
+        "medianMonthlyRentRM": 1200
+      },
+      {
+        "furnishing": "Unknown",
+        "listingCount": 0,
+        "listingSharePercentage": 0.0,
+        "medianMonthlyRentRM": null
+      }
+    ],
+    "furnishingPremium": {
+      "available": true,
+      "fullyFurnishedMedianRM": 2050,
+      "unfurnishedMedianRM": 1200,
+      "premiumRM": 850,
+      "premiumPercentage": 70.8,
+      "reason": null
+    }
+  },
   "qualityReport": {
     "missingPriceCount": 0,
     "missingSizeCount": 5,
