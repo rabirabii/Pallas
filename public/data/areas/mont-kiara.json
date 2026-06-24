@@ -1,0 +1,42 @@
+{
+  "metadata": {
+    "areaName": "Mont Kiara",
+    "areaSlug": "mont-kiara",
+    "sourceUrl": "https://speedhome.com/rent/mont-kiara",
+    "scrapedAt": "2026-06-24T02:51:32.053107+00:00",
+    "listingCount": 0,
+    "validPriceCount": 0,
+    "currency": "MYR",
+    "sizeUnit": "sqft",
+    "dataMode": "snapshot",
+    "methodologyVersion": "1.0.0"
+  },
+  "rentalTypes": {
+    "daily": {
+      "available": false,
+      "derived": null,
+      "formula": null,
+      "reason": "No explicit daily rental prices found."
+    },
+    "monthly": {
+      "available": true,
+      "derived": false,
+      "formula": null,
+      "reason": null
+    },
+    "annual": {
+      "available": true,
+      "derived": true,
+      "formula": "monthlyRentRM * 12",
+      "reason": null
+    }
+  },
+  "summaries": [],
+  "listings": [],
+  "qualityReport": {
+    "missingPriceCount": 0,
+    "missingSizeCount": 0,
+    "unknownFurnishingCount": 0,
+    "warningCount": 0
+  }
+}
