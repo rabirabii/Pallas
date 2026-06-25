@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+:root {
+  --background: #e7eaeb;
+
+  --surface: #f1f3f2;
+  --surface-raised: #f7f8f6;
+  --surface-muted: #dce1e3;
+  --surface-strong: #cbd2d5;
+
+  --foreground: #202527;
+  --foreground-muted: #5e696f;
+  --foreground-subtle: #818b90;
+  --foreground-inverse: #f5f6f3;
+
+  --primary: #7a3034;
+  --primary-strong: #64272b;
+  --primary-hover: #64272b;
+  --primary-soft: #a66f72;
+
+  --secondary: #60717b;
+  --secondary-strong: #40515b;
+  --secondary-soft: #94a2aa;
+
+  --accent: #a7b1b7;
+  --accent-soft: #cbd2d5;
+  --accent-dark: #75858e;
+  --accent-strong: #75858e;
+
+  --border: #bcc5c9;
+  --border-strong: #87949a;
+  --border-subtle: rgba(70, 83, 90, 0.18);
+
+  --positive: #526b61;
+  --warning: #927344;
+  --negative: #7a3034;
+  --information: #536d7c;
+
+  --focus-ring: #7a3034;
+
+  --radius-small: 3px;
+  --radius-medium: 6px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-muted: var(--surface-muted);
+
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-foreground-subtle: var(--foreground-subtle);
+
+  --color-primary: var(--primary);
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-soft: var(--primary-soft);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-strong: var(--secondary-strong);
+
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-dark: var(--accent-dark);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-positive: var(--positive);
+  --color-warning: var(--warning);
+  --color-negative: var(--negative);
+  --color-information: var(--information);
+
+  --color-foreground-inverse: var(--foreground-inverse);
+  --color-surface-strong: var(--surface-strong);
+  --color-secondary-soft: var(--secondary-soft);
+  --color-accent-strong: var(--accent-strong);
+  --color-border-subtle: var(--border-subtle);
+  --color-focus-ring: var(--focus-ring);
+
+  --font-sans:
+    var(--font-josefin), "Josefin Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), "Geist Mono", ui-monospace, monospace;
+  --font-serif:
+    "nexa-rust-sans-black-2", var(--font-josefin), ui-sans-serif, system-ui,
+    sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--background);
+  color: var(--foreground);
+  font-family:
+    var(--font-josefin), "Josefin Sans", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+}
+a,
+a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+.numeric,
+.price,
+.date,
+.record-code,
+.font-mono {
+  font-variant-numeric: tabular-nums;
+}
+
+::selection {
+  background: var(--primary-soft);
+  color: var(--foreground-inverse);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}

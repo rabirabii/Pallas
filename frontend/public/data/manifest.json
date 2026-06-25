@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-06-24T04:15:50.424389+00:00",
+  "areas": [
+    {
+      "name": "Bangsar",
+      "slug": "bangsar",
+      "sourceUrl": "https://speedhome.com/rent/bangsar",
+      "listingCount": 30,
+      "scrapedAt": "2026-06-24T03:43:33.738890+00:00"
+    },
+    {
+      "name": "Cheras",
+      "slug": "cheras",
+      "sourceUrl": "https://speedhome.com/rent/cheras",
+      "listingCount": 40,
+      "scrapedAt": "2026-06-24T03:44:05.809697+00:00"
+    },
+    {
+      "name": "KLCC",
+      "slug": "klcc",
+      "sourceUrl": "https://speedhome.com/rent/klcc",
+      "listingCount": 40,
+      "scrapedAt": "2026-06-24T03:43:58.819265+00:00"
+    },
+    {
+      "name": "Mont Kiara",
+      "slug": "mont-kiara",
+      "sourceUrl": "https://speedhome.com/rent/mont-kiara",
+      "listingCount": 40,
+      "scrapedAt": "2026-06-24T03:21:51.414076+00:00"
+    }
+  ]
+}
