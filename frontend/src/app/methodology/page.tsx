@@ -1,6 +1,33 @@
+import type { Metadata } from "next";
+
+import { absoluteUrl, siteConfig } from "@/shared/config/site";
 import { PageShell } from "@/shared/ui/page-shell";
 import { SectionHeading } from "@/shared/ui/section-heading";
 import { SiteContainer } from "@/shared/ui/site-container";
+
+export const metadata: Metadata = {
+  title: "Methodology",
+  description:
+    "How PALLAS collects public rental listing snapshots, normalizes data, handles outliers, and calculates Fair Price.",
+  alternates: {
+    canonical: "/methodology",
+  },
+  openGraph: {
+    type: "article",
+    locale: siteConfig.locale,
+    url: absoluteUrl("/methodology"),
+    siteName: siteConfig.name,
+    title: "PALLAS Methodology",
+    description:
+      "Data source, snapshot architecture, cleansing rules, Fair Price formula, and limitations.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PALLAS Methodology",
+    description:
+      "Data source, snapshot architecture, cleansing rules, Fair Price formula, and limitations.",
+  },
+};
 
 const sections = [
   {
