@@ -17,5 +17,7 @@ export { MarketRegistry } from "./presentation/market-registry";
 export { SnapshotLedger } from "./presentation/snapshot-ledger";
 export { selectPrimarySummary } from "./application/select-primary-summary";
 export { AreaMarketOverview } from "./presentation/area-market-overview";
+export { AreaIntelligenceWorkspace } from "./presentation/area-intelligence-workspace";
+export { MarketRecordHeader } from "./presentation/market-record-header";
 export { RentalAvailability } from "./presentation/rental-availability";
 export { PriceSummaryTable } from "./presentation/price-summary-table";

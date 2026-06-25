@@ -9,20 +9,45 @@ import {
 import { MetricDisplay } from "@/shared/ui/metric-display";
 import { SectionHeading } from "@/shared/ui/section-heading";
 
-export function AreaMarketOverview({ dataset }: { dataset: AreaDataset }) {
+export function AreaMarketOverview({
+  dataset,
+  compact = false,
+  onExplainMetric,
+}: {
+  dataset: AreaDataset;
+  compact?: boolean;
+  onExplainMetric?: (metric: "fairPrice" | "confidence") => void;
+}) {
   const primarySummary = selectPrimarySummary(dataset);
 
   return (
-    <section className="py-12">
-      <SectionHeading
-        marker="I."
-        eyebrow="Market Overview"
-        title="Representative Snapshot"
-      >
-        Primary metrics use the largest valid segment sample in this area.
-      </SectionHeading>
+    <section className={compact ? "py-0" : "py-12"}>
+      {compact ? (
+        <div>
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-dark">
+            Market Overview
+          </p>
+          <h2 className="mt-2 font-serif text-3xl text-foreground">
+            Representative Snapshot
+          </h2>
+        </div>
+      ) : (
+        <SectionHeading
+          marker="I."
+          eyebrow="Market Overview"
+          title="Representative Snapshot"
+        >
+          Primary metrics use the largest valid segment sample in this area.
+        </SectionHeading>
+      )}
 
-      <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div
+        className={
+          compact
+            ? "mt-6 grid gap-5 sm:grid-cols-2"
+            : "mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4"
+        }
+      >
         <MetricDisplay
           label="Median Monthly Rent"
           value={formatRM(primarySummary?.medianMonthlyRentRM)}
@@ -54,7 +79,26 @@ export function AreaMarketOverview({ dataset }: { dataset: AreaDataset }) {
         />
       </div>
 
-      <div className="mt-8 border-y border-border py-5">
+      {onExplainMetric ? (
+        <div className="mt-5 flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={() => onExplainMetric("fairPrice")}
+            className="border border-border-strong px-3 py-2 font-mono text-xs uppercase tracking-[0.12em] text-foreground-muted transition-colors hover:border-primary hover:text-primary"
+          >
+            Explain Fair Price
+          </button>
+          <button
+            type="button"
+            onClick={() => onExplainMetric("confidence")}
+            className="border border-border-strong px-3 py-2 font-mono text-xs uppercase tracking-[0.12em] text-foreground-muted transition-colors hover:border-primary hover:text-primary"
+          >
+            Explain Confidence
+          </button>
+        </div>
+      ) : null}
+
+      <div className="mt-6 border-y border-border py-4">
         <div className="grid gap-4 font-mono text-sm text-foreground-muted sm:grid-cols-3">
           <div>
             <span className="block text-xs uppercase tracking-[0.14em] text-foreground-subtle">
@@ -92,10 +136,13 @@ export function AreaMarketOverview({ dataset }: { dataset: AreaDataset }) {
         </div>
       </div>
 
-      <p className="mt-4 text-sm text-foreground-muted">
-        Confidence refers to sample size only, not appraisal certainty. Snapshot
-        contains {formatNumber(dataset.metadata.listingCount)} listings.
-      </p>
+      {!compact ? (
+        <p className="mt-4 text-sm text-foreground-muted">
+          Confidence refers to sample size only, not appraisal certainty.
+          Snapshot contains {formatNumber(dataset.metadata.listingCount)}{" "}
+          listings.
+        </p>
+      ) : null}
     </section>
   );
 }

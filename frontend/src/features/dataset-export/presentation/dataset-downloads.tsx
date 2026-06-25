@@ -14,7 +14,13 @@ import {
 } from "@/features/dataset-export/infrastructure/browser-download";
 import { SectionHeading } from "@/shared/ui/section-heading";
 
-export function DatasetDownloads({ dataset }: { dataset: AreaDataset }) {
+export function DatasetDownloads({
+  dataset,
+  compact = false,
+}: {
+  dataset: AreaDataset;
+  compact?: boolean;
+}) {
   const areaName = dataset.metadata.areaName;
   const scrapedAt = dataset.metadata.scrapedAt;
 
@@ -53,14 +59,28 @@ export function DatasetDownloads({ dataset }: { dataset: AreaDataset }) {
   }
 
   return (
-    <section className="py-12">
-      <SectionHeading
-        marker="VII."
-        eyebrow="Dataset Export"
-        title="Download Snapshot"
-      >
-        Export the current static dataset for independent inspection.
-      </SectionHeading>
+    <section className={compact ? "py-0" : "py-12"}>
+      {compact ? (
+        <div>
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-dark">
+            Dataset Export
+          </p>
+          <h2 className="mt-2 font-serif text-3xl text-foreground">
+            Download Snapshot
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground-muted">
+            Export the current static dataset for independent inspection.
+          </p>
+        </div>
+      ) : (
+        <SectionHeading
+          marker="VII."
+          eyebrow="Dataset Export"
+          title="Download Snapshot"
+        >
+          Export the current static dataset for independent inspection.
+        </SectionHeading>
+      )}
 
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">
         <button

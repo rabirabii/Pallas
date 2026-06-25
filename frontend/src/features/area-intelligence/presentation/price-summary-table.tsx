@@ -27,17 +27,38 @@ function formatFairPrice(summary: PriceSummary): string {
   return formatRM(summary.fairPriceRM);
 }
 
-export function PriceSummaryTable({ dataset }: { dataset: AreaDataset }) {
+export function PriceSummaryTable({
+  dataset,
+  compact = false,
+}: {
+  dataset: AreaDataset;
+  compact?: boolean;
+}) {
   return (
-    <section className="py-12">
-      <SectionHeading
-        marker="III."
-        eyebrow="Segment Intelligence"
-        title="Price Summary by Unit Type"
-      >
-        Fair Price is a representative market estimate based on the available
-        sample. Confidence refers to sample size only.
-      </SectionHeading>
+    <section className={compact ? "py-0" : "py-12"}>
+      {compact ? (
+        <div>
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-dark">
+            Segment Intelligence
+          </p>
+          <h2 className="mt-2 font-serif text-3xl text-foreground">
+            Price Summary by Unit Type
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground-muted">
+            Fair Price is a representative market estimate based on the
+            available sample. Confidence refers to sample size only.
+          </p>
+        </div>
+      ) : (
+        <SectionHeading
+          marker="III."
+          eyebrow="Segment Intelligence"
+          title="Price Summary by Unit Type"
+        >
+          Fair Price is a representative market estimate based on the available
+          sample. Confidence refers to sample size only.
+        </SectionHeading>
+      )}
 
       <div className="mt-8 overflow-x-auto border-y border-border-strong">
         <table className="min-w-[1120px] w-full border-collapse text-left text-sm">
