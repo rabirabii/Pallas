@@ -20,7 +20,7 @@ AI tidak digunakan untuk membuat data listing palsu. Dataset yang digunakan bera
 
 AI assistant:
 
-- OpenAI Codex melalui local workspace.
+- OpenAI Codex melalui workspace.
 - Shell command untuk membaca file, menjalankan tests, dan build.
 - Patch-based editing untuk perubahan file.
 
