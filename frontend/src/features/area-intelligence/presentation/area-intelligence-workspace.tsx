@@ -72,9 +72,10 @@ function WorkspacePanel({
   const reduceMotion = useReducedMotion();
 
   return (
-    <div hidden={!active}>
+    <div hidden={!active} className="min-w-0">
       {active ? (
         <motion.div
+          className="min-w-0"
           initial={{ opacity: 0, y: reduceMotion ? 0 : 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduceMotion ? 0.01 : 0.22 }}
@@ -443,7 +444,7 @@ export function AreaIntelligenceWorkspace({
           id="workspace-panel-overview"
           role="tabpanel"
           aria-labelledby="workspace-tab-overview"
-          className="pt-8"
+          className="min-w-0 pt-8"
         >
           <WorkspacePanel active={activeView === "overview"}>
             <div className="mb-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -470,7 +471,7 @@ export function AreaIntelligenceWorkspace({
               />
             </div>
 
-            <div className="grid gap-10">
+            <div className="grid min-w-0 gap-10">
               <RentalAvailability dataset={dataset} compact />
               <PriceSummaryTable dataset={dataset} compact />
             </div>

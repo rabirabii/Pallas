@@ -27,6 +27,33 @@ function formatFairPrice(summary: PriceSummary): string {
   return formatRM(summary.fairPriceRM);
 }
 
+function SummaryMetric({
+  label,
+  value,
+  emphasis = false,
+}: {
+  label: string;
+  value: string;
+  emphasis?: boolean;
+}) {
+  return (
+    <div>
+      <dt className="font-mono text-[0.68rem] uppercase tracking-[0.12em] text-foreground-subtle">
+        {label}
+      </dt>
+      <dd
+        className={
+          emphasis
+            ? "mt-1 font-mono text-sm font-semibold text-primary"
+            : "mt-1 font-mono text-sm text-foreground"
+        }
+      >
+        {value}
+      </dd>
+    </div>
+  );
+}
+
 export function PriceSummaryTable({
   dataset,
   compact = false,
@@ -41,7 +68,7 @@ export function PriceSummaryTable({
           <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-dark">
             Segment Intelligence
           </p>
-          <h2 className="mt-2 font-serif text-3xl text-foreground">
+          <h2 className="mt-2 max-w-full break-words font-serif text-2xl leading-tight text-foreground sm:text-3xl">
             Price Summary by Unit Type
           </h2>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground-muted">
@@ -60,8 +87,67 @@ export function PriceSummaryTable({
         </SectionHeading>
       )}
 
-      <div className="mt-8 overflow-x-auto border-y border-border-strong">
-        <table className="min-w-[1120px] w-full border-collapse text-left text-sm">
+      <div className="mt-7 grid gap-4 md:hidden">
+        {dataset.summaries.map((summary) => (
+          <article
+            key={summary.segment}
+            className="border-y border-border bg-surface/35 px-3 py-4"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <h3 className="break-words font-serif text-xl leading-tight text-foreground">
+                {summary.segment}
+              </h3>
+              <span className="shrink-0 font-mono text-xs uppercase tracking-[0.1em] text-foreground-subtle">
+                {formatPercentage(summary.listingSharePercentage)}
+              </span>
+            </div>
+
+            <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-4 border-t border-border pt-4">
+              <SummaryMetric
+                label="Fair Price"
+                value={formatFairPrice(summary)}
+                emphasis
+              />
+              <SummaryMetric
+                label="Median"
+                value={formatRM(summary.medianMonthlyRentRM)}
+              />
+              <SummaryMetric
+                label="Average"
+                value={formatRM(summary.averageMonthlyRentRM)}
+              />
+              <SummaryMetric label="Mode" value={formatMode(summary)} />
+              <SummaryMetric
+                label="Units"
+                value={formatNumber(summary.unitCount)}
+              />
+              <SummaryMetric
+                label="Range"
+                value={
+                  summary.priceRangeRM === null
+                    ? "Not stated"
+                    : formatRM(summary.priceRangeRM)
+                }
+              />
+              <SummaryMetric
+                label="Avg Size"
+                value={formatSqft(summary.averageSizeSqft)}
+              />
+              <SummaryMetric
+                label="Confidence"
+                value={summary.dataConfidence}
+              />
+            </dl>
+          </article>
+        ))}
+      </div>
+
+      <div
+        className="mt-8 hidden w-full min-w-0 overflow-x-auto overscroll-x-contain border-y border-border-strong [-webkit-overflow-scrolling:touch] [touch-action:pan-x] md:block"
+        tabIndex={0}
+        aria-label="Scrollable price summary table"
+      >
+        <table className="w-max min-w-[1120px] border-collapse text-left text-sm">
           <caption className="sr-only">
             Price summary grouped by unit segment for{" "}
             {dataset.metadata.areaName}
